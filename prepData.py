@@ -27,7 +27,7 @@ def rollingAvg(image, window_size):
         for i in range(len(row) - window_size + 1):
             window = row[i:i + window_size]
             avg = (sum(window) // window_size)
-            avg = (row[i]*.9 + avg*.1) // 1
+            avg = (row[i]*.9 + avg*.1) // 1 
             rolling_avg.append(avg)
 
         # this loop adds the values on the old row to the end of the new list to keep the same dimensions
