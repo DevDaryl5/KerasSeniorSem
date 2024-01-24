@@ -16,7 +16,22 @@ def markFunc(image):
     # for row in image: #run rolling avg for all pixels 
     #     row = rollingAvg(row,5)
     # image = rollingAvg(image, 5)
-    return rollingAvg(image, 3)
+    return rollingAvg(image, 3) # this does the rolling avg
+    # return ringCircle(image) #This does the ring algorithm
+
+def ringCircle(img):
+    # Define the center and radii of the two circles
+    center_x, center_y = 14, 14
+    outer_radius = 10  # Adjust the outer radius as needed
+    inner_radius = 8   # Adjust the inner radius as needed
+
+    # Draw the outer circle by setting the appropriate pixels to 1
+    for y in range(28):
+        for x in range(28):
+            distance_to_center = (x - center_x)**2 + (y - center_y)**2
+            if outer_radius**2 >= distance_to_center > inner_radius**2:
+                img[y][x] += 100
+    return img
 
 #Ignore this for the moment, trying to figure out an issue I have currently
 def rollingAvg(image, window_size):
