@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 from matplotlib import pyplot
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -7,6 +8,7 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 # define cnn model
@@ -64,6 +66,23 @@ def run_test_harness():
     # evaluate model
     _, acc = model.evaluate(test_it, steps=len(test_it), verbose=2)
     print('> %.3f' % (acc * 100.0))
+    
+    #Confution Matrix and Classification Report
+    Y_pred = model.predict(test_it, 10000 // 65)
+    print(Y_pred)
+    y_pred = []
+    for val in Y_pred:
+        if val > 0.5:
+            y_pred.append(1)
+        else:
+            y_pred.append(0)
+    # y_pred = np.argmax(Y_pred, axis=1)
+    print(y_pred)
+    print('Confusion Matrix')
+    print(confusion_matrix(test_it.classes, y_pred))
+    print('Classification Report')
+    target_names = ['Marked', 'Unmarked']
+    print(classification_report(test_it.classes, y_pred, target_names=target_names))
     # learning curves
     summarize_diagnostics(history)
 
